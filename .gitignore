@@ -1,0 +1,15 @@
+/Results/*  
+!/Results/.gitignore  
+/logs/*  
+!/logs/.gitignore  
+/outputs/*  
+!/outputs/.gitignore  
+/Predictions/*  
+!/Predictions/.gitignore  
+/Data/*  
+!/Data/Mesh.csv  
+/Model_Results/*  
+/Code/__pycache__/*  
+.vscode  
+__pycache__/  
+.DS_Store

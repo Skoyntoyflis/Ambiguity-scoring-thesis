@@ -1,0 +1,38 @@
+#!/bin/bash
+
+#SBATCH --partition=gpu
+#SBATCH --gpus=1
+#SBATCH --job-name=pipe
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=18
+#SBATCH --time=00:01:00
+#SBATCH --output=outputs/slurm_output_%A.out
+
+module purge
+module load 2022
+module load Anaconda3/2022.05
+
+# Activate your environment
+source activate dl2023
+
+
+# cp Data/OmniScience.csv $TMPDIR || exit 1
+# cp Data/Emtree_RMC.csv $TMPDIR || exit 1  
+
+cp Data/OmniScience_processed.csv $TMPDIR || exit 1
+cp Data/Emtree_RMC_processed.csv $TMPDIR || exit 1
+cp Data/Mesh.csv $TMPDIR || exit 1
+# cp Data/Emtree_no_cell_lines_rdkit_filtered.csv $TMPDIR || exit 1
+# cp Data/RMC_cell_lines.csv $TMPDIR || exit 1
+
+ls $TMPDIR
+
+# Run python code
+srun python -u Code/pipeline.py --model_name BERT --dataset_name Mesh  --undersample_flag --undersample_ratio 0.1  #--smote_flag --smote_ratio 0.2 # --prediction_flag --seed 46
+
+
+# srun python -u Code/finetune.py --model_name T5_large --dataset_name Emtree --undersample_flag --undersample_ratio 0.1  # --smote_flag --smote_ratio 0.2 --seed 46
+# 
+
+
+#tail -f outputs/slurm_output_6117000.out
